@@ -1,0 +1,51 @@
+// .container {
+//   input.form-control {
+//     height: 37px;
+//   }
+// }
+*:focus {
+  outline: none;
+}
+.container {
+  input:focus {
+    outline: none;
+  }
+  background: #fff;
+  .row_taitle {
+    color: #000;
+  }
+
+  .panel {
+    color: #000;
+    border: 1px solid #faebcc;
+    .panel_heading {
+      color: #8a6d3b;
+      background-color: #fcf8e3;
+      border-color: #faebcc;
+
+      h3 {
+        padding: 10px 15px;
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+    .panel_body {
+      padding: 15px;
+      .panel_form_button {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
+        button {
+          width: 80px;
+          &:first-child {
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+  }
+  input {
+    height: 38px;
+  }
+}

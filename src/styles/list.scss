@@ -1,0 +1,11 @@
+.container.container-user {
+  text-align: center;
+  .list-content-user {
+    .list-item {
+      margin: 0 auto;
+      width: 300px;
+      height: 30px;
+      border: 1px solid gray;
+    }
+  }
+}
