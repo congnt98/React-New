@@ -24,7 +24,6 @@ class Detailuser extends React.Component {
     async componentDidMount() {
         let { id } = this.props.with.params;
         //let id = this.props.params
-
         let res = await axios.get(`https://reqres.in/api/users/${id}`)
 
         this.setState({

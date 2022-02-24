@@ -10,79 +10,141 @@ class Todopro extends React.Component {
         // Don't call this.setState() here!
         this.state = {
             tasks: [],
-            taskEdit: {},
-            isDisplayForm: false
+            isDisplayForm: false,
+            editTask: {},
+            filter: {
+                name: '',
+                status: -1
+            }
         };
-
     }
-    componentWillUnmount() {
+    componentDidMount() {
         if (localStorage && localStorage.getItem('tasks')) {
-            var tasks = JSON.parse(localStorage.getItem('tasks'))
             this.setState({
-                tasks: tasks
-
+                tasks: JSON.parse(localStorage.getItem('tasks'))
             })
         }
     }
-
-
     id = () => {
         return Math.floor(Math.random() * 1000000);
     }
     openForm = () => {
         this.setState({
-            isDisplayForm: !this.state.isDisplayForm
+            isDisplayForm: true,
+        })
+    }
+    setDefaultForm = () => {
+        this.setState({
+            isDisplayForm: false,
+            editTask: {}
+        })
+    }
+    onCloseForm = () => {
+        this.setState({
+            isDisplayForm: false
         })
     }
     onAddForm = () => {
-        this.openForm()
+        this.setState({
+            isDisplayForm: !this.state.isDisplayForm,
+            editTask: {}
+        })
     }
     onSubmit = (e) => {
         var { tasks } = this.state
-        var task = {
-            id: this.id(),
-            name: e.name,
-            status: e.status === 'true' ? true : false
+        console.log(typeof e.status);
+
+        if (e.id === '') {
+            var task = {
+                id: this.id(),
+                name: e.name,
+                status: e.status === 'true' ? true : false
+            }
+            // localStorage.setItem('tasks', JSON.stringify(tasks))
+            this.setState({
+                tasks: [...this.state.tasks, task]
+            })
         }
+        else {
+            var index = tasks.findIndex(x => x.id === e.id)
+            tasks[index] = e
+        }
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+        this.setDefaultForm()
+    }
+    onUpdateStatus = (id) => {
+        let { tasks } = this.state
+        var index = tasks.findIndex(x => x.id === id);
+        // if (tasks[index].status === true) {
+        //     tasks[index].status = false
+        // }
+        // else {
+        //     tasks[index].status = true
+        // }
+        tasks[index].status = !tasks[index].status
         this.setState({
-            tasks: [...this.state.tasks, task]
+            tasks: tasks
         })
         localStorage.setItem('tasks', JSON.stringify(tasks))
     }
-    hanbleEdit = (e) => {
+    onDeleteTask = (id) => {
+        let { tasks } = this.state
+        const curentTasks = tasks.filter(x => x.id !== id);
         this.setState({
-            taskEdit: e
+            tasks: curentTasks
         })
-        // var { taskEdit, tasks } = this.state
-        // var objempty = Object.keys(taskEdit).length === 0
-        // if (objempty === false && e.id === tasks.id) {
-        //     var updateArray = [...tasks]
-        //     var objId = updateArray.findIndex((obj) => obj.id === e.id)
-        //     updateArray[objId].name = taskEdit.name
-        //     updateArray[objId].status = taskEdit.status
-
-        //     this.setState({
-        //         tasks: updateArray,
-        //         taskEdit: {}
-        //     })
-        // }
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+        this.onCloseForm()
 
     }
-    clickstatus = () => {
-        alert('click')
+    editTask = (id) => {
+        let { tasks } = this.state
+        var index = tasks.findIndex(x => x.id === id);
+        var Task = tasks[index]
+        this.setState({
+            editTask: Task
+        })
+        this.openForm()
     }
+    onFilter = (filterName, filterStatus) => {
+        // console.log(filterName, filterStatus);
+        filterStatus = (parseInt(filterStatus))
+        //console.log();filterStatus
 
-    updateStatus = (id) => {
-        console.log(id);
-
+        this.setState({
+            filter: {
+                name: filterName,
+                status: filterStatus
+            }
+        })
     }
     render() {
-        var { tasks, isDisplayForm, taskEdit } = this.state
-
-        var checkForm = isDisplayForm === true ? <Form onSubmit={this.onSubmit} onAddForm={this.onAddForm} /> : ''
+        var { tasks, editTask, isDisplayForm, filter } = this.state
+        //console.log(filter);
+        var filterName = tasks.filter((str) => {
+            return str.name.toLowerCase().indexOf(filter.name.toLowerCase()) >= 0;
+        });
+        tasks = filterName
+        var filterstatus = tasks.filter(task => {
+            if (filter.status === -1) {
+                return task
+            } else {
+                return task.status === (filter.status === 0 ? false : true)
+            }
+        })
+        // console.log(filterstatus);
+        tasks = filterstatus
+        //lọc tìm kiếm trong form tương tự
+        // if (filter) {
+        //     if (filter.name) {
+        //         var tasks = tasks.filter(e => {
+        //             return e.name.toLowerCase().indexOf(filter.name) !== -1
+        //         })
+        //     }
+        // }
+        var checkForm = isDisplayForm === true ? <Form onSubmit={this.onSubmit} onCloseForm={this.onCloseForm} openForm={this.openForm} editTask={editTask} /> : ''
         return (
             <>
-
                 <div className="container">
                     <div className=" row_taitle text-center">
                         <h3>Quản Lý Công Việc</h3>
@@ -95,7 +157,7 @@ class Todopro extends React.Component {
                         <div className={isDisplayForm === true ? "col-md-8" : "col-md-12"}>
                             <div className="" >
                                 <h3 className="btn btn-primary mx-1"
-                                    onClick={() => this.openForm()}
+                                    onClick={() => this.onAddForm()}
                                 >{isDisplayForm === true ? 'Danh sách Công Việc' : 'Thêm Công việc'}</h3>
                             </div>
                             <div className="row">
@@ -103,11 +165,13 @@ class Todopro extends React.Component {
                             </div>
                             <div className="row">
                                 <div className="col">
-                                    <Table taskEdit={taskEdit}
-                                        updateStatus={this.updateStatus}
+                                    <Table
                                         tasks={tasks}
-                                        //clickstatus={this.clickstatus}
-                                        hanbleEdit={this.hanbleEdit} />
+                                        onUpdateStatus={this.onUpdateStatus}
+                                        onDeleteTask={this.onDeleteTask}
+                                        editTask={this.editTask}
+                                        onFilter={this.onFilter}
+                                    />
                                 </div>
                             </div>
                         </div>

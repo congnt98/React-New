@@ -44,19 +44,14 @@ class ListTodo extends React.Component {
             let objIndex = updatedOSArray.findIndex((obj => obj.id === todo.id));
 
             //Log object to Console.
-            console.log("Before update: ", updatedOSArray[objIndex])
-
             //Update object's name property.
             updatedOSArray[objIndex].title = edittodo.title
-
-
             this.setState({
                 ListTodos: updatedOSArray,
                 edittodo: {}
             })
             return;
         }
-
         this.setState({
             edittodo: todo
         })
