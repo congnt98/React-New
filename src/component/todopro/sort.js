@@ -1,5 +1,8 @@
 import React from "react"
 class Sort extends React.Component {
+
+
+
     render() {
         return (
             <div className="col-md-6">
@@ -9,9 +12,10 @@ class Sort extends React.Component {
                         Sắp Xếp
                     </button>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a className="dropdown-item" href="#">Action</a>
-                        <a className="dropdown-item" href="#">Another action</a>
-                        <a className="dropdown-item" href="#">Something else here</a>
+                        <span className="dropdown-item" href="">a-z</span>
+                        <span className="dropdown-item" href=""> z-a</span>
+                        <span className="dropdown-item" href="">kich hoat</span>
+                        <span className="dropdown-item" href="">an</span>
                     </div>
                 </div>
             </div>

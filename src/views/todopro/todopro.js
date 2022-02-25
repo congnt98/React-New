@@ -7,7 +7,6 @@ import Table from "../../component/todopro/table";
 class Todopro extends React.Component {
     constructor(props) {
         super(props);
-        // Don't call this.setState() here!
         this.state = {
             tasks: [],
             isDisplayForm: false,
@@ -52,8 +51,6 @@ class Todopro extends React.Component {
     }
     onSubmit = (e) => {
         var { tasks } = this.state
-        console.log(typeof e.status);
-
         if (e.id === '') {
             var task = {
                 id: this.id(),
@@ -177,72 +174,6 @@ class Todopro extends React.Component {
                         </div>
                     </div>
                 </div>
-
-
-
-                {/* <div className="container">
-                    <div className="row_taitle text-center">
-                        <h3>Quản Lý Công Việc</h3>
-                        <hr />
-                    </div>
-                    <button className="btn btn-primary">Thêm Công Việc</button>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="input-group mt-3">
-                                <input type="text" className="form-control" placeholder="nhập tìm kiếm..." />
-                                <div className="button-group">
-                                    <button type="button" className="btn btn-primary">Tìm</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <div className="dropdown mt-3">
-                                <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Sắp Xếp
-                                </button>
-                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a className="dropdown-item" href="#">A-Z</a>
-                                    <a className="dropdown-item" href="#">Z-A</a>
-                                    <a className="divider">
-                                        <hr />
-                                    </a>
-                                    <a className="dropdown-item" href="#">Trạng Thái Kích Hoạt </a>
-                                    <a className="dropdown-item" href="#">Trạng Thái ẨN</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className=" row mt-3">
-                        <div className="col">
-                            <table className="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th className="text-center">STT</th>
-                                        <th className="text-center">Tên</th>
-                                        <th className="text-center">Trạng thái</th>
-                                        <th className="text-center">Hành động</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td><input type="text" className="form-control" /></td>
-                                        <td>
-                                            <select id="inputState" className="form-control">
-                                                <option value={-1}>Tất cả</option>
-                                                <option value={0}>Ẩn</option>
-                                                <option value={1}>Hiện</option>
-                                            </select>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
-                    </div>
-                </div> */}
             </>
         )
     }
