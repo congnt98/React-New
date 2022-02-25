@@ -14,7 +14,9 @@ class Todopro extends React.Component {
             filter: {
                 name: '',
                 status: -1
-            }
+            },
+            sort: '',
+            keyword: ''
         };
     }
     componentDidMount() {
@@ -115,9 +117,20 @@ class Todopro extends React.Component {
             }
         })
     }
+    onSort = (e) => {
+        var onSort = e
+        this.setState({
+            sort: onSort
+        })
+    }
+    onSearch = (keyword) => {
+        this.setState({
+            keyword: keyword
+        })
+    }
     render() {
-        var { tasks, editTask, isDisplayForm, filter } = this.state
-        //console.log(filter);
+        var { tasks, editTask, isDisplayForm, filter, sort, keyword } = this.state
+        // console.log(sort);
         var filterName = tasks.filter((str) => {
             return str.name.toLowerCase().indexOf(filter.name.toLowerCase()) >= 0;
         });
@@ -139,6 +152,17 @@ class Todopro extends React.Component {
         //         })
         //     }
         // }
+        if (sort !== '') {
+            if (sort === 'az') { tasks.sort((a, b) => a.name.localeCompare(b.name)) }
+            if (sort === 'za') { tasks.sort((a, b) => b.name.localeCompare(a.name)) }
+            if (sort === 'kh') { tasks.sort((a, b) => b.status - a.status) }
+            if (sort === 'a') { tasks.sort((a, b) => a.status - b.status) }
+        }
+        if (keyword !== '') {
+            tasks = tasks.filter((str) => {
+                return str.name.toLowerCase().indexOf(keyword) >= 0;
+            });
+        }
         var checkForm = isDisplayForm === true ? <Form onSubmit={this.onSubmit} onCloseForm={this.onCloseForm} openForm={this.openForm} editTask={editTask} /> : ''
         return (
             <>
@@ -158,7 +182,7 @@ class Todopro extends React.Component {
                                 >{isDisplayForm === true ? 'Danh sách Công Việc' : 'Thêm Công việc'}</h3>
                             </div>
                             <div className="row">
-                                <Control />
+                                <Control onSort={this.onSort} onSearch={this.onSearch} />
                             </div>
                             <div className="row">
                                 <div className="col">

@@ -2,7 +2,9 @@ import React from "react"
 class Sort extends React.Component {
 
 
-
+    onSort = (e) => {
+        this.props.onSort(e)
+    }
     render() {
         return (
             <div className="col-md-6">
@@ -12,10 +14,10 @@ class Sort extends React.Component {
                         Sắp Xếp
                     </button>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <span className="dropdown-item" href="">a-z</span>
-                        <span className="dropdown-item" href=""> z-a</span>
-                        <span className="dropdown-item" href="">kich hoat</span>
-                        <span className="dropdown-item" href="">an</span>
+                        <span onClick={() => this.onSort('az')} className="dropdown-item" >a-z</span>
+                        <span onClick={() => this.onSort('za')} className="dropdown-item" > z-a</span>
+                        <span onClick={() => this.onSort('kh')} className="dropdown-item" >kich hoat</span>
+                        <span onClick={() => this.onSort('a')} className="dropdown-item" >an</span>
                     </div>
                 </div>
             </div>
