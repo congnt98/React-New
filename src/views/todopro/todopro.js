@@ -3,13 +3,13 @@ import "../../styles/todopro.scss"
 import Form from "../../component/todopro/form";
 import Control from "../../component/todopro/control";
 import Table from "../../component/todopro/table";
+import { connect } from 'react-redux'
+import * as actions from '../../store/actions/index'
 
 class Todopro extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tasks: [],
-            isDisplayForm: false,
             editTask: {},
             filter: {
                 name: '',
@@ -19,16 +19,8 @@ class Todopro extends React.Component {
             keyword: ''
         };
     }
-    componentDidMount() {
-        if (localStorage && localStorage.getItem('tasks')) {
-            this.setState({
-                tasks: JSON.parse(localStorage.getItem('tasks'))
-            })
-        }
-    }
-    id = () => {
-        return Math.floor(Math.random() * 1000000);
-    }
+
+
     openForm = () => {
         this.setState({
             isDisplayForm: true,
@@ -46,46 +38,28 @@ class Todopro extends React.Component {
         })
     }
     onAddForm = () => {
-        this.setState({
-            isDisplayForm: !this.state.isDisplayForm,
-            editTask: {}
-        })
+        // this.setState({
+        //     isDisplayForm: !this.state.isDisplayForm,
+        //     editTask: {}
+        // })
+        this.props.onToggoForm()
     }
-    onSubmit = (e) => {
-        var { tasks } = this.state
-        if (e.id === '') {
-            var task = {
-                id: this.id(),
-                name: e.name,
-                status: e.status === 'true' ? true : false
-            }
-            // localStorage.setItem('tasks', JSON.stringify(tasks))
-            this.setState({
-                tasks: [...this.state.tasks, task]
-            })
-        }
-        else {
-            var index = tasks.findIndex(x => x.id === e.id)
-            tasks[index] = e
-        }
-        localStorage.setItem('tasks', JSON.stringify(tasks))
-        this.setDefaultForm()
-    }
-    onUpdateStatus = (id) => {
-        let { tasks } = this.state
-        var index = tasks.findIndex(x => x.id === id);
-        // if (tasks[index].status === true) {
-        //     tasks[index].status = false
-        // }
-        // else {
-        //     tasks[index].status = true
-        // }
-        tasks[index].status = !tasks[index].status
-        this.setState({
-            tasks: tasks
-        })
-        localStorage.setItem('tasks', JSON.stringify(tasks))
-    }
+
+    // onUpdateStatus = (id) => {
+    //     let { tasks } = this.state
+    //     var index = tasks.findIndex(x => x.id === id);
+    //     // if (tasks[index].status === true) {
+    //     //     tasks[index].status = false
+    //     // }
+    //     // else {
+    //     //     tasks[index].status = true
+    //     // }
+    //     tasks[index].status = !tasks[index].status
+    //     this.setState({
+    //         tasks: tasks
+    //     })
+    //     localStorage.setItem('tasks', JSON.stringify(tasks))
+    // }
     onDeleteTask = (id) => {
         let { tasks } = this.state
         const curentTasks = tasks.filter(x => x.id !== id);
@@ -129,41 +103,42 @@ class Todopro extends React.Component {
         })
     }
     render() {
-        var { tasks, editTask, isDisplayForm, filter, sort, keyword } = this.state
+        var { editTask, filter, sort, keyword } = this.state
+        var { isDisplayForm } = this.props;
         // console.log(sort);
-        var filterName = tasks.filter((str) => {
-            return str.name.toLowerCase().indexOf(filter.name.toLowerCase()) >= 0;
-        });
-        tasks = filterName
-        var filterstatus = tasks.filter(task => {
-            if (filter.status === -1) {
-                return task
-            } else {
-                return task.status === (filter.status === 0 ? false : true)
-            }
-        })
-        // console.log(filterstatus);
-        tasks = filterstatus
-        //lọc tìm kiếm trong form tương tự
-        // if (filter) {
-        //     if (filter.name) {
-        //         var tasks = tasks.filter(e => {
-        //             return e.name.toLowerCase().indexOf(filter.name) !== -1
-        //         })
+        // var filterName = tasks.filter((str) => {
+        //     return str.name.toLowerCase().indexOf(filter.name.toLowerCase()) >= 0;
+        // });
+        // tasks = filterName
+        // var filterstatus = tasks.filter(task => {
+        //     if (filter.status === -1) {
+        //         return task
+        //     } else {
+        //         return task.status === (filter.status === 0 ? false : true)
         //     }
+        // })
+        // // console.log(filterstatus);
+        // tasks = filterstatus
+        // //lọc tìm kiếm trong form tương tự
+        // // if (filter) {
+        // //     if (filter.name) {
+        // //         var tasks = tasks.filter(e => {
+        // //             return e.name.toLowerCase().indexOf(filter.name) !== -1
+        // //         })
+        // //     }
+        // // }
+        // if (sort !== '') {
+        //     if (sort === 'az') { tasks.sort((a, b) => a.name.localeCompare(b.name)) }
+        //     if (sort === 'za') { tasks.sort((a, b) => b.name.localeCompare(a.name)) }
+        //     if (sort === 'kh') { tasks.sort((a, b) => b.status - a.status) }
+        //     if (sort === 'a') { tasks.sort((a, b) => a.status - b.status) }
         // }
-        if (sort !== '') {
-            if (sort === 'az') { tasks.sort((a, b) => a.name.localeCompare(b.name)) }
-            if (sort === 'za') { tasks.sort((a, b) => b.name.localeCompare(a.name)) }
-            if (sort === 'kh') { tasks.sort((a, b) => b.status - a.status) }
-            if (sort === 'a') { tasks.sort((a, b) => a.status - b.status) }
-        }
-        if (keyword !== '') {
-            tasks = tasks.filter((str) => {
-                return str.name.toLowerCase().indexOf(keyword) >= 0;
-            });
-        }
-        var checkForm = isDisplayForm === true ? <Form onSubmit={this.onSubmit} onCloseForm={this.onCloseForm} openForm={this.openForm} editTask={editTask} /> : ''
+        // if (keyword !== '') {
+        //     tasks = tasks.filter((str) => {
+        //         return str.name.toLowerCase().indexOf(keyword) >= 0;
+        //     });
+        // }
+        var checkForm = isDisplayForm === true ? <Form openForm={this.openForm} editTask={editTask} /> : ''
         return (
             <>
                 <div className="container">
@@ -187,8 +162,6 @@ class Todopro extends React.Component {
                             <div className="row">
                                 <div className="col">
                                     <Table
-                                        tasks={tasks}
-                                        onUpdateStatus={this.onUpdateStatus}
                                         onDeleteTask={this.onDeleteTask}
                                         editTask={this.editTask}
                                         onFilter={this.onFilter}
@@ -202,5 +175,17 @@ class Todopro extends React.Component {
         )
     }
 }
+const mapState = (state) => {
+    return {
+        isDisplayForm: state.isDisplayForm
+    }
+}
+const mapDispatch = (dispatch, props) => {
+    return {
+        onToggoForm: () => {
+            dispatch(actions.toggoForm())
+        },
 
-export default Todopro;
+    }
+}
+export default connect(mapState, mapDispatch)(Todopro);

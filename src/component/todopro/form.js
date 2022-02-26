@@ -1,4 +1,7 @@
 import React from "react"
+import { connect } from 'react-redux'
+import table from "./table";
+import * as actions from '../../store/actions/index'
 class Form extends React.Component {
     constructor(props) {
         super(props);
@@ -42,7 +45,7 @@ class Form extends React.Component {
     }
     handleSubmit = (event) => {
         event.preventDefault()
-        this.props.onSubmit(this.state)
+        this.props.onAddtask(this.state)
         this.deleteIpnutForm()
 
     }
@@ -92,7 +95,21 @@ class Form extends React.Component {
         )
     }
 }
+var mapState = state => {
+    return {
 
-export default Form
+    }
+}
+var mapDispatch = (dispatch, props) => {
+    return {
+        onAddtask: (task) => {
+            dispatch(actions.addTask(task))
+        },
+        onCloseForm: () => {
+            dispatch(actions.closeForm())
+        }
+    }
+}
+export default connect(mapState, mapDispatch)(Form)
 
 

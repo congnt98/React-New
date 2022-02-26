@@ -1,12 +1,7 @@
-// const initState = {
-//     users: [
-//         { id: 1, name: NTC },
-//         { id: 2, name: NTC1 }
-//     ]
-// }
-
-// const rootReducer = (state = initState, action) => {
-//     return state
-// }
-
-// export default rootReducer
+import { combineReducers } from "redux"
+import tasks from './tasks'
+import isDisplayForm from './isDisPlayForm'
+const rootReducer = combineReducers({
+    tasks, isDisplayForm,
+})
+export default rootReducer
