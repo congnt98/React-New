@@ -1,6 +1,7 @@
 
 import Item from "./item"
 import React from "react"
+import { connect } from 'react-redux'
 // import Itemedit from "./itemedit"
 class Table extends React.Component {
     constructor(props) {
@@ -33,7 +34,6 @@ class Table extends React.Component {
                 {task.id}
                 index={index}
                 task={task}
-                onUpdateStatus={this.props.onUpdateStatus}
                 onDeleteTask={this.props.onDeleteTask}
                 editTask={this.props.editTask}
             />
@@ -77,5 +77,9 @@ class Table extends React.Component {
         )
     }
 }
-
-export default Table
+const mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks
+    }
+}
+export default connect(mapStateToProps, null)(Table)
