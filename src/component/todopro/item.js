@@ -9,9 +9,11 @@ class Item extends React.Component {
     }
     onDeleteTask = () => {
         this.props.onDeleteTask(this.props.task.id)
+        this.props.onCloseForm()
     }
-    editTask = () => {
-        this.props.editTask(this.props.task.id)
+    onEditTask = () => {
+        this.props.onOpenForm()
+        this.props.onEditTask(this.props.task)
     }
     render() {
         var { task, index } = this.props
@@ -28,7 +30,7 @@ class Item extends React.Component {
                 </td>
                 <td className="text-center">
                     <button className="btn btn-success mx-2"
-                        onClick={() => this.editTask()}
+                        onClick={() => this.onEditTask()}
                     >Sửa</button>
                     <button className="btn btn-danger"
                         onClick={() => this.onDeleteTask()}
@@ -52,7 +54,18 @@ const mapDispatch = (dispatch, props) => {
         onUpdateStatus: (id) => {
             dispatch(actions.updateStatus(id))
         },
-
+        onDeleteTask: (id) => {
+            dispatch(actions.deleteTask(id))
+        },
+        onCloseForm: () => {
+            dispatch(actions.closeForm())
+        },
+        onOpenForm: () => {
+            dispatch(actions.openForm())
+        },
+        onEditTask: (task) => {
+            dispatch(actions.editTask(task))
+        }
     }
 }
 export default connect(mapState, mapDispatch)(Item);

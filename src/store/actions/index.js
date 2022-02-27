@@ -1,3 +1,4 @@
+
 import * as types from '../actions/actionTypes'
 export const listAll = () => {
     return {
@@ -5,9 +6,9 @@ export const listAll = () => {
 
     }
 }
-export const addTask = (task) => {
+export const saveTask = (task) => {
     return {
-        type: types.ADD_TASK,
+        type: types.SAVE_TASK,
         task
     }
 }
@@ -33,5 +34,37 @@ export const updateStatus = (id) => {
     return {
         type: types.UPDATE_STATUS_TASK,
         id
+    }
+}
+
+export const deleteTask = (id) => {
+    return {
+        type: types.DELETE_TASK,
+        id
+    }
+}
+export const editTask = (task) => {
+    return {
+        type: types.EDIT_ITEM,
+        task
+    }
+}
+export const filterTask = (filter) => {
+    return {
+        type: types.FILTER_TABLE,
+        filter
+    }
+}
+export const searchTask = (keyword) => {
+    return {
+        type: types.SEARCH,
+        keyword
+
+    }
+}
+export const sortTask = (sort) => {
+    return {
+        type: types.SORT,
+        sort
     }
 }

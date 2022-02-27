@@ -2,7 +2,7 @@
 import Item from "./item"
 import React from "react"
 import { connect } from 'react-redux'
-// import Itemedit from "./itemedit"
+import * as actions from '../../store/actions/index'
 class Table extends React.Component {
     constructor(props) {
         super(props);
@@ -10,35 +10,46 @@ class Table extends React.Component {
             filterName: '',
             filterStatus: -1
         }
-
     }
     onChangeFillter = (e) => {
         var target = e.target
         var name = target.name
         var value = target.value
-        this.props.onFilter(
-            name === 'filterName' ? value : this.state.filterName,
-            name === 'filterStatus' ? value : this.state.filterStatus
-        )
+        var filter = {
+            name: name === 'filterName' ? value : this.state.filterName,
+            status: name === 'filterStatus' ? value : this.state.filterStatus
+        }
+        this.props.onFilterTable(filter)
         this.setState({
             [name]: value
         })
     }
-
     render() {
         var { filterName, filterStatus } = this.state
-        var { tasks } = this.props
-        // var objempty = Object.keys(taskEdit).length === 0
+        var { tasks, filterTable, keyword } = this.props
+        tasks = tasks.filter((str) => {
+            return str.name.toLowerCase().indexOf(filterTable.name.toLowerCase()) >= 0;
+        });
+        tasks = tasks.filter(task => {
+            if (filterTable.status === -1) {
+                return task
+            } else {
+                return task.status === (filterTable.status === 0 ? false : true)
+            }
+        })
+        //search
+        if (keyword) {
+            tasks = tasks.filter(e => {
+                return e.name.toLowerCase().indexOf(keyword) !== -1
+            })
+        }
         var elmTasks = tasks.map((task, index) => {
             return <Item key=
                 {task.id}
                 index={index}
                 task={task}
-                onDeleteTask={this.props.onDeleteTask}
-                editTask={this.props.editTask}
             />
         })
-
         return (
             <table className="table table-bordered table-hover">
                 <thead>
@@ -77,9 +88,18 @@ class Table extends React.Component {
         )
     }
 }
-const mapStateToProps = (state) => {
+const mapState = (state) => {
     return {
-        tasks: state.tasks
+        tasks: state.tasks,
+        filterTable: state.filterTable,
+        keyword: state.search
     }
 }
-export default connect(mapStateToProps, null)(Table)
+const mapDispatch = (dispatch, props) => {
+    return {
+        onFilterTable: (filter) => {
+            dispatch(actions.filterTask(filter))
+        }
+    }
+}
+export default connect(mapState, mapDispatch)(Table);

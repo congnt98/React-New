@@ -1,4 +1,6 @@
 import React from "react"
+import { connect } from 'react-redux'
+import * as actions from '../../store/actions/index'
 class Sort extends React.Component {
 
 
@@ -6,6 +8,13 @@ class Sort extends React.Component {
         this.props.onSort(e)
     }
     render() {
+        var { sort, tasks } = this.props
+        if (sort !== '') {
+            if (sort === 'az') { tasks.sort((a, b) => a.name.localeCompare(b.name)) }
+            if (sort === 'za') { tasks.sort((a, b) => b.name.localeCompare(a.name)) }
+            if (sort === 'kh') { tasks.sort((a, b) => b.status - a.status) }
+            if (sort === 'a') { tasks.sort((a, b) => a.status - b.status) }
+        }
         return (
             <div className="col-md-6">
                 <div className="dropdown">
@@ -24,5 +33,17 @@ class Sort extends React.Component {
         )
     }
 }
-
-export default Sort
+const mapState = (state) => {
+    return {
+        tasks: state.task,
+        sort: state.sort
+    }
+}
+const mapDispatch = (dispatch, props) => {
+    return {
+        onSort: (sort) => {
+            dispatch(actions.sortTask(sort))
+        }
+    }
+}
+export default connect(mapState, mapDispatch)(Sort)

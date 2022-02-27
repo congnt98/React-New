@@ -1,6 +1,6 @@
 import React from "react"
 import { connect } from 'react-redux'
-import table from "./table";
+// import table from "./table";
 import * as actions from '../../store/actions/index'
 class Form extends React.Component {
     constructor(props) {
@@ -20,11 +20,12 @@ class Form extends React.Component {
                 name: this.props.editTask.name,
                 status: this.props.editTask.status
             })
+        } else {
+            this.deleteIpnutForm()
         }
     }
     componentDidUpdate(prevProps, prevState) {
         if (this.props.editTask !== prevProps.editTask) {
-
             this.setState({
                 id: this.props.editTask.id,
                 name: this.props.editTask.name,
@@ -45,11 +46,11 @@ class Form extends React.Component {
     }
     handleSubmit = (event) => {
         event.preventDefault()
-        this.props.onAddtask(this.state)
-        this.deleteIpnutForm()
-
+        this.props.onSaveTask(this.state)
+        this.onClearForm()
+        this.closeForm()
     }
-    deleteIpnutForm = () => {
+    onClearForm = () => {
         this.setState({
             name: '',
             status: false
@@ -59,6 +60,7 @@ class Form extends React.Component {
         var { name, status, id } = this.state
         var yes = true
         var no = false
+        if (!this.props.isDisplayForm) return null;
         return (
             <>
                 <div className="panel">
@@ -86,7 +88,7 @@ class Form extends React.Component {
                             <div className="panel_form_button">
                                 <button type="submit" className="btn btn-warning"
                                 >Lưu</button>
-                                <button type="button" className="btn btn-danger" onClick={() => { this.deleteIpnutForm() }}>Hủy</button>
+                                <button type="button" className="btn btn-danger" onClick={() => { this.onClearForm() }}>Hủy</button>
                             </div>
                         </form>
                     </div>
@@ -98,12 +100,14 @@ class Form extends React.Component {
 var mapState = state => {
     return {
 
+        isDisplayForm: state.isDisplayForm,
+        editTask: state.editingitem
     }
 }
 var mapDispatch = (dispatch, props) => {
     return {
-        onAddtask: (task) => {
-            dispatch(actions.addTask(task))
+        onSaveTask: (task) => {
+            dispatch(actions.saveTask(task))
         },
         onCloseForm: () => {
             dispatch(actions.closeForm())
