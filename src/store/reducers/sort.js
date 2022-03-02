@@ -4,9 +4,7 @@ var initState = ''
 var rootReducer = (state = initState, action) => {
     switch (action.type) {
         case types.SORT:
-            console.log(action);
-            console.log(state);
-            return state
+            return action.sort
 
         default:
             return state

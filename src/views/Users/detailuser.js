@@ -1,21 +1,7 @@
 import React from "react";
-
 import { withRouter } from "./withrouter";
-
 import axios from 'axios';
-
-// const withRouter = WrappedComponent => props => {
-//     const params = useParams();
-
-//     // etc... other react-router-dom v6 hooks
-//     return (
-//         <WrappedComponent
-//             {...props}
-//             params={params}
-//         // etc...
-//         />
-//     );
-// };
+import '../../styles/detailuser.scss'
 
 class Detailuser extends React.Component {
     state = {
@@ -42,25 +28,27 @@ class Detailuser extends React.Component {
 
         return (
             <>
-                <h1>Hello ccc:</h1>
-                {isEmptyObj === false &&
-                    <>
-                        <div>
-                            user name:{user.first_name} -{user.last_name}
-                        </div>
-                        <div>
-                            user email:{user.email}
-                        </div>
-                        <div>
-                            <img src={user.avatar} alt="#" />
-                        </div>
-                        <div>
-                            <button onClick={() => this.backUser()}>
-                                back
-                            </button>
-                        </div>
-                    </>
-                }
+                <div className="container text-center">
+                    <h1>Hello ccc:</h1>
+                    {isEmptyObj === false &&
+                        <>
+                            <div>
+                                <span> user name:</span> {user.first_name} -{user.last_name}
+                            </div>
+                            <div>
+                                <span>user email:</span>{user.email}
+                            </div>
+                            <div>
+                                <img src={user.avatar} alt="#" />
+                            </div>
+                            <div>
+                                <button onClick={() => this.backUser()}>
+                                    back
+                                </button>
+                            </div>
+                        </>
+                    }
+                </div>
 
             </>
         )

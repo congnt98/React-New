@@ -1,11 +1,21 @@
 .container.container-user {
   text-align: center;
+  .tittle {
+    font-size: 50px;
+  }
   .list-content-user {
+    margin-top: 20px;
     .list-item {
+      padding-top: 6px;
       margin: 0 auto;
-      width: 300px;
-      height: 30px;
+      width: 400px;
+      height: 40px;
       border: 1px solid gray;
+      border-bottom: none;
+
+      &:last-child {
+        border-bottom: 1px solid gray;
+      }
     }
   }
 }

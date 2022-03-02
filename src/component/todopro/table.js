@@ -26,7 +26,8 @@ class Table extends React.Component {
     }
     render() {
         var { filterName, filterStatus } = this.state
-        var { tasks, filterTable, keyword } = this.props
+        var { tasks, filterTable, keyword, sort } = this.props
+        //lọc 
         tasks = tasks.filter((str) => {
             return str.name.toLowerCase().indexOf(filterTable.name.toLowerCase()) >= 0;
         });
@@ -37,6 +38,13 @@ class Table extends React.Component {
                 return task.status === (filterTable.status === 0 ? false : true)
             }
         })
+        //sort
+        if (sort !== '') {
+            if (sort === 'az') { tasks.sort((a, b) => a.name.localeCompare(b.name)) }
+            if (sort === 'za') { tasks.sort((a, b) => b.name.localeCompare(a.name)) }
+            if (sort === 'kh') { tasks.sort((a, b) => b.status - a.status) }
+            if (sort === 'a') { tasks.sort((a, b) => a.status - b.status) }
+        }
         //search
         if (keyword) {
             tasks = tasks.filter(e => {
@@ -50,6 +58,7 @@ class Table extends React.Component {
                 task={task}
             />
         })
+
         return (
             <table className="table table-bordered table-hover">
                 <thead>
@@ -92,7 +101,8 @@ const mapState = (state) => {
     return {
         tasks: state.tasks,
         filterTable: state.filterTable,
-        keyword: state.search
+        keyword: state.search,
+        sort: state.sort
     }
 }
 const mapDispatch = (dispatch, props) => {

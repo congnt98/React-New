@@ -9,6 +9,3 @@ export const EDIT_ITEM = 'EDIT_ITEM'
 export const FILTER_TABLE = 'FILTER_TABLE'
 export const SEARCH = 'SEARCH'
 export const SORT = 'SORT'
-
-
-

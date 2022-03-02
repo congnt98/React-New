@@ -4,13 +4,9 @@ import { toast } from 'react-toastify';
 class AddTodo extends React.Component {
     constructor(props) {
         super(props);
-        // Don't call this.setState() here!
         this.state = { title: '' };
 
     }
-    // state = {
-    //     title: ''
-    // }
     onChangeTitle = (event) => {
 
         this.setState({
@@ -32,7 +28,7 @@ class AddTodo extends React.Component {
         })
     }
     render() {
-        let { title } = this.state // equivalent let title=this.state.title
+        let { title } = this.state
         return (
             <>
                 <div className="add-todo">

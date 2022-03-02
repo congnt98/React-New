@@ -1,3 +1,9 @@
+div {
+  p {
+    font-size: 50px;
+    text-align: center;
+  }
+}
 .Container {
   text-align: center;
   botton {
@@ -8,24 +14,46 @@
       width: 370px;
     }
     .add {
+      background-color: #5e5df0;
+      padding: 0 30px;
+      border-radius: 3px;
+      box-shadow: #5e5df0 0 10px 20px -10px;
+      color: aliceblue;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 30px;
+      border: 0;
+      cursor: pointer;
     }
   }
   .content-list-todo {
-    width: 400px;
-    margin: 0 auto;
+    border: 1px solid gray;
+    width: 460px;
+    margin: 20px auto;
+    border-radius: 3px;
 
     .todo-list {
-      margin-top: 15px;
+      margin-top: 8px;
       height: 40px;
       border-bottom: 1px solid gray;
 
-      &:first-child {
+      &:last-child {
+        border-bottom: none;
       }
-
+      span {
+        float: left;
+      }
       button {
         float: right;
       }
-      .edit {
+      .edit,
+      .delete {
+        cursor: pointer;
+        width: 70px;
+        line-height: 30px;
+        background-color: #37aee2;
+        border: 0;
+        border-radius: 30px;
         margin: 0 10px;
       }
     }

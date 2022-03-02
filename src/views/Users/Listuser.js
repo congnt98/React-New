@@ -35,7 +35,6 @@ class Listuser extends React.Component {
         })
     }
     clickuser = (item) => {
-
         this.props.with.navigate(`/user/${item.id}`);
     }
     render() {
@@ -53,7 +52,6 @@ class Listuser extends React.Component {
                                 <div className="list-item" key={item.id}
                                     onClick={() => this.clickuser(item)}
                                 >
-
                                     {index + 1}-{item.first_name}-{item.last_name}
                                 </div>
                             )

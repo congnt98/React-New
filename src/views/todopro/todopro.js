@@ -10,7 +10,6 @@ class Todopro extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sort: '',
         };
     }
     onToggoForm = () => {
@@ -18,23 +17,13 @@ class Todopro extends React.Component {
         this.props.onClearTask({
             id: '',
             name: '',
-            status: false
+            status: true
         })
     }
-    // onSort = (e) => {
-    //     var onSort = e
-    //     this.setState({
-    //         sort: onSort
-    //     })
-    // }
+
     render() {
         var { isDisplayForm } = this.props;
-        // if (sort !== '') {
-        //     if (sort === 'az') { tasks.sort((a, b) => a.name.localeCompare(b.name)) }
-        //     if (sort === 'za') { tasks.sort((a, b) => b.name.localeCompare(a.name)) }
-        //     if (sort === 'kh') { tasks.sort((a, b) => b.status - a.status) }
-        //     if (sort === 'a') { tasks.sort((a, b) => a.status - b.status) }
-        // }
+
         return (
             <>
                 <div className="container">
