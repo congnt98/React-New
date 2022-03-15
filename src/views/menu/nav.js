@@ -4,6 +4,7 @@ import {
     Link
 } from "react-router-dom";
 
+
 class Menu extends React.Component {
     render() {
         return (
@@ -15,7 +16,6 @@ class Menu extends React.Component {
                     {/* <Link to="/user">user</Link>
                     <Link to="/todo">Todo</Link> */}
                     <Link to="/colorpick">colorPick</Link>
-
                 </div>
             </>
         )

@@ -44,7 +44,6 @@ function App() {
               return <Route key={index} path={router.path} element={router.element} />
             })
           }
-
         </Routes>
       </header>
       <ToastContainer

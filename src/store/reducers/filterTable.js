@@ -11,7 +11,6 @@ var rootReducer = (state = initState, action) => {
                 name: action.filter.name,
                 status: parseInt(action.filter.status)
             }
-
         default:
             return state
     }
